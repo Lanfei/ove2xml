@@ -1,0 +1,50 @@
+//=============================================================================
+//  Overture Document To MusicXml Library
+//
+//  Copyright (C) 2010-2011 Rui Fan <vanferry@gmail.com>
+//
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License version 2.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along
+//  with this program; if not, write to the Free Software Foundation, Inc.,
+//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//=============================================================================
+
+#ifndef XML_SERIALIZE_H
+#define XML_SERIALIZE_H
+
+#include <QString>
+#include "ove.h"
+
+class IXmlNotify;
+
+namespace XML {
+
+class XmlSerialize {
+public:
+	XmlSerialize();
+	virtual ~XmlSerialize();
+
+public:
+	void setOveSong(OVE::OveSong* ove);
+	void setDate(const QString& date);
+	void setNotify(IXmlNotify* notify);
+
+	bool load(const QString& path);
+	bool save(const QString& path);
+
+private:
+	OVE::OveSong* ove_;
+	QString date_;
+	IXmlNotify* notify_;
+};
+
+}
+
+#endif

@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Name=ove2xml
+Exec=ove2xml-gui
+Icon=ove2xml
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Midi;Education;Music;
+Comment=ove2xml
+
+Name[zh_CN]=ove2xml

@@ -1,0 +1,57 @@
+#
+# spec file for package ove2xml (Version @VERSION@)
+#
+# norootforbuild
+
+Name:           ove2xml
+Version:        @VERSION@
+Release:        1
+License:        GPL v3 or later
+Summary:        Overture File to MusicXML file convertor
+Group:          Productivity/Multimedia/Sound/Midi
+Packager:       Rui Fan <vanferry@gmail.com>
+Source:         %name-%version.tar.bz2
+URL:            http://ove2xml.sourceforge.net
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildRequires:  cmake
+BuildRequires:	libqt4-devel
+BuildRequires:	update-desktop-files
+
+%description
+ove2xml is a convertor for music notation software Overture's document to MusicXML file. It has a console mode and a gui mode, in the gui mode you can convertor multiple files under a folder at a time.
+
+Authors:
+--------
+    Rui Fan <vanferry@gmail.com>
+
+%debug_package
+%prep
+%setup -q
+
+%build
+CXXFLAGS="$RPM_OPT_FLAGS -g -fexceptions" cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
+make %{?jobs:-j %jobs} VERBOSE=1
+
+%install
+make install DESTDIR=$RPM_BUILD_ROOT
+%suse_update_desktop_file -G "ove2xml" %name AudioVideo
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root)
+%doc NEWS README ChangeLog AUTHORS TODO COPYING
+%doc %{_mandir}/*
+%dir %{_datadir}/%name
+%dir %{_datadir}/%name/locale
+%{_bindir}/%name
+%{_datadir}/%name/*
+%{_datadir}/%name/locale/*
+%{_datadir}/icons/hicolor/*/*/*
+%{_datadir}/applications/%name.desktop
+
+%changelog
+* Tus Oct 11 2011 Rui Fan <vanferry@gmail.com> 0.6
+- New release
+

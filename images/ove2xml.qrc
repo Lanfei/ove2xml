@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file>folder.png</file>
+	<file>folder.into.png</file>
+	<file>folder.out.png</file>
+	<file>folder.search.png</file>
+	<file>mode.convert.png</file>
+	<file>save.xml.png</file>
+	<file>save.xmls.png</file>
+</qresource>
+</RCC>
