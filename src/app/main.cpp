@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        switch (s[1].toAscii()) {
+        switch (s[1].unicode()) {
             case 'c':
                 if (argvs.size() - i < 2)
                     usage();

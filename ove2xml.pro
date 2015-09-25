@@ -17,7 +17,7 @@
 #=============================================================================
 
 TEMPLATE = app
-QT += xml
+QT += xml widgets
 CONFIG += warn_on console debug
 TARGET = ove2xml
 

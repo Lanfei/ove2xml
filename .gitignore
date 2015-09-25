@@ -1,3 +1,6 @@
+# System files
+.DS_Store
+
 # C++ objects and libs
 
 *.slo
@@ -24,7 +27,7 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 build
-*-build-*
+build-*
 
 # QtCreator
 
