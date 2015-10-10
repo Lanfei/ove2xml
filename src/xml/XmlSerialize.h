@@ -38,6 +38,7 @@ public:
 
 	bool load(const QString& path);
 	bool save(const QString& path);
+    QString toString();
 
 private:
 	OVE::OveSong* ove_;

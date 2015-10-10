@@ -82,11 +82,13 @@ bool OveConvertor::convert(const QString& from, const QString& to) {
         return false;
     }
 
-    printf("Converting: ");
-    printf(toString(from));
-    printf(" to ");
-    printf(toString(toFile));
-    printf("\n");
+    if(to != "") {
+        printf("Converting: ");
+        printf(toString(from));
+        printf(" to ");
+        printf(toString(toFile));
+        printf("\n");
+    }
 
     QByteArray buffer = oveFile.readAll();
 
@@ -111,15 +113,19 @@ bool OveConvertor::convert(const QString& from, const QString& to) {
     xmlSerialize.setDate(encodeDate);
     //xmlSerialize.setNotify(xmlListener_);
 
-    result = xmlSerialize.save(to);
-
-    QString str = result ? QString("Saved as " + to) : QString("Error when creating xml file!");
-
-    if(result) {
-        printf("Saved as %s\n", toString(to));
-        printf("Succeed!\n");
+    if(to == "") {
+        printf(toString(xmlSerialize.toString()));
     } else {
-        printf("Error when creating xml file: %s", toString(to));
+        result = xmlSerialize.save(to);
+
+        QString str = result ? QString("Saved as " + to) : QString("Error when creating xml file!");
+
+        if(result) {
+            printf("Saved as %s\n", toString(to));
+            printf("Succeed!\n");
+        } else {
+            printf("Error when creating xml file: %s", toString(to));
+        }
     }
 
     return true;

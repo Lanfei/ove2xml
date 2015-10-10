@@ -3757,8 +3757,8 @@ bool OvscParse::parse() {
 	bool version4 = placeHolder.toUnsignedInt() == 4;
 	ove_->setIsVersion4(version4);
 
-	QString str = QString("This file is created by Overture ") + (version4 ? "4" : "3") + "\n";
-	messageOut(str);
+    // QString str = QString("This file is created by Overture ") + (version4 ? "4" : "3") + "\n";
+    // messageOut(str);
 
 	if( !jump(6) ) { return false; }
 

@@ -52,44 +52,48 @@ bool XmlSerialize::load(const QString& /*path*/) {
 bool XmlSerialize::save(const QString& path) {
 	if (path.isEmpty()) {
 		return false;
-	}
-
-	QDomImplementation impl;
-	QDomDocument doc;
-	QDomDocumentType docType;
-	QDomNode root;
-
-	docType = impl.createDocumentType(
-				"score-partwise",
-				"-//Recordare//DTD MusicXML 1.1 Partwise//EN",
-				"http://www.musicxml.org/dtds/partwise.dtd");
-
-    doc = impl.createDocument(QString::null, "score-partwise", docType);
-
-    QDomNode xmlNode = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"");
-	doc.insertBefore(xmlNode, doc.firstChild());
-
-	root = doc.documentElement();
-
-	XmlBuffer xmlBuffer;
-	xmlBuffer.setOve(ove_);
-	xmlBuffer.setEncodeDate(date_);
-	xmlBuffer.setNotify(notify_);
-	xmlBuffer.organize();
-
-	ScorePartwiseWriterPtr writer = XmlWriterFactory::createScorePartwise(&xmlBuffer);
-	writer->process(doc, root);
+    }
 
 	QFile file(path);
-	if(!file.open(QIODevice::WriteOnly))
+    if(!file.open(QIODevice::WriteOnly))
   	    return false;
 
     QTextStream ts(&file);
-	ts << doc.toString();
+    ts << this->toString();
 
 	file.close();
 
 	return true;
+}
+
+QString XmlSerialize::toString() {
+    QDomImplementation impl;
+    QDomDocument doc;
+    QDomDocumentType docType;
+    QDomNode root;
+
+    docType = impl.createDocumentType(
+                "score-partwise",
+                "-//Recordare//DTD MusicXML 1.1 Partwise//EN",
+                "http://www.musicxml.org/dtds/partwise.dtd");
+
+    doc = impl.createDocument(QString::null, "score-partwise", docType);
+
+    QDomNode xmlNode = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"");
+    doc.insertBefore(xmlNode, doc.firstChild());
+
+    root = doc.documentElement();
+
+    XmlBuffer xmlBuffer;
+    xmlBuffer.setOve(ove_);
+    xmlBuffer.setEncodeDate(date_);
+    xmlBuffer.setNotify(notify_);
+    xmlBuffer.organize();
+
+    ScorePartwiseWriterPtr writer = XmlWriterFactory::createScorePartwise(&xmlBuffer);
+    writer->process(doc, root);
+
+    return doc.toString();
 }
 
 }

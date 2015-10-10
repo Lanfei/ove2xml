@@ -29,7 +29,7 @@
 //---------------------------------------------------------
 
 static void usage() {
-    printf("ove2xml version 0.6\n");
+    printf("ove2xml version 0.8\n");
     printf("usage: ove2xml -c ove_file_with_path -o xml_file_with_path\n");
     exit(-1);
 }
