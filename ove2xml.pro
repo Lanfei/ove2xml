@@ -67,7 +67,7 @@ SOURCES += \
     ./src/app/OveConvertor.cpp \
     ./src/app/main.cpp \
 
-RESOURCES += images/ove2xml.qrc
+#RESOURCES += ./images/ove2xml.qrc
 
-win32:RC_FILE = images/ove2xml.rc
-#macx:ICON = app.icns
+#win32:RC_FILE = ./images/ove2xml.rc
+#macx:ICON = ./images/ove2xml.icns

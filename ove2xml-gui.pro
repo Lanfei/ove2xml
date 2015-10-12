@@ -80,7 +80,7 @@ FORMS += \
     ./src/app/About.ui \
     ./src/app/ConvertWindow.ui \
 
-RESOURCES += images/ove2xml.qrc
+RESOURCES += ./images/ove2xml.qrc
 
-win32:RC_FILE = images/ove2xml.rc
-#macx:ICON = app.icns
+win32:RC_FILE = ./images/ove2xml.rc
+macx:ICON = images/ove2xml.icns
