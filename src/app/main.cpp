@@ -29,8 +29,8 @@
 //---------------------------------------------------------
 
 static void usage() {
-    printf("ove2xml version 0.8\n");
-    printf("usage: ove2xml -c ove_file_with_path -o xml_file_with_path\n");
+    printf("ove2xml version 0.9\n");
+    printf("usage: ove2xml -f ove_file_with_path -o xml_file_with_path\n");
     exit(-1);
 }
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     //QTextCodec* tc = QTextCodec::codecForName("utf8");
     //QTextCodec::setCodecForLocale(tc);
 
-    QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 
     /////////////////////////////////////////////
     QString fromFile;
@@ -57,18 +57,18 @@ int main(int argc, char *argv[]) {
         }
 
         switch (s[1].unicode()) {
-            case 'c':
-                if (argvs.size() - i < 2)
-                    usage();
-                fromFile = argvs.takeAt(i + 1);
-                fromFile = fromFile.trimmed();
-                break;
-            case 'o':
-                if (argvs.size() - i < 2)
-                    usage();
-                toFile = argvs.takeAt(i + 1);
-                toFile = toFile.trimmed();
-                break;
+        case 'f':
+            if (argvs.size() - i < 2)
+                usage();
+            fromFile = argvs.takeAt(i + 1);
+            fromFile = fromFile.trimmed();
+            break;
+        case 'o':
+            if (argvs.size() - i < 2)
+                usage();
+            toFile = argvs.takeAt(i + 1);
+            toFile = toFile.trimmed();
+            break;
         case 'h':
         case 'v':
             usage();

@@ -26,6 +26,7 @@
 #include <QDate>
 #include <QFile>
 #include <QFileInfo>
+#include <QDataStream>
 
 char* toString(const QString& str) {
 #if defined(Q_OS_WIN32)
@@ -35,32 +36,26 @@ char* toString(const QString& str) {
 #endif
 }
 
-static QString checkExists(const QString& fromFile, const QString& toFile) {
-    QFileInfo info(fromFile);
+static bool checkFromFile(const QString& from) {
+    QFileInfo info(from);
     if(!info.exists()) {
         printf("The input file is not exist!\n");
-        exit(-1);
+        return false;
     } else if (info.suffix() != "ove") {
         printf("Please input an ove file to convert!\n");
-        exit(-1);
-    } else {
-        QString to;
-        if(toFile.isEmpty()) {
-            to = info.path() + QDir::separator() + info.completeBaseName() + ".mid";
-        } else {
-            QFileInfo toInfo(toFile);
-            QDir toDir(toInfo.absolutePath());
-            if(!toDir.exists()) {
-                printf("Output file path not exist.\n");
-                exit(-1);
-            }
-            to = toFile;
-        }
-
-        return to;
+        return false;
     }
+    return true;
+}
 
-    return QString();
+static bool checkToFile(const QString& to) {
+    QFileInfo toInfo(to);
+    QDir toDir(toInfo.absolutePath());
+    if(!toDir.exists()) {
+        printf("Output file path not exist.\n");
+        return false;
+    }
+    return true;
 }
 
 OveConvertor::OveConvertor() {
@@ -72,27 +67,36 @@ OveConvertor::~OveConvertor() {
 bool OveConvertor::convert(const QString& from, const QString& to) {
     OVE::OveSong* ove = CoreData::get()->getOveSong();
 
-    QString toFile = checkExists(from, to);
-
     // load ove file
-    QFile oveFile(from);
+    QFile oveFile;
+    QByteArray buffer;
 
-    if (!oveFile.open(QFile::ReadOnly)) {
-        printf("load ove file \"%s\" failed.\n", toString(from));
-        return false;
+    if(from.isEmpty()) {
+        oveFile.open(stdin, QFile::ReadOnly);
+    } else {
+        if(!checkFromFile(from)) {
+            return false;
+        }
+        oveFile.setFileName(from);
+        if(!oveFile.open(QFile::ReadOnly)) {
+            printf("load ove file \"%s\" failed.\n", toString(from));
+            return false;
+        }
     }
 
-    if(to != "") {
+    if(!to.isEmpty()) {
+        if(!checkToFile(to)) {
+            return false;
+        }
         printf("Converting: ");
         printf(toString(from));
         printf(" to ");
-        printf(toString(toFile));
+        printf(toString(to));
         printf("\n");
     }
 
-    QByteArray buffer = oveFile.readAll();
+    buffer = oveFile.readAll();
 
-    oveFile.close();
     ove->clear();
 
     OVE::IOVEStreamLoader* oveLoader = OVE::createOveStreamLoader();
@@ -113,12 +117,10 @@ bool OveConvertor::convert(const QString& from, const QString& to) {
     xmlSerialize.setDate(encodeDate);
     //xmlSerialize.setNotify(xmlListener_);
 
-    if(to == "") {
+    if(to.isEmpty()) {
         printf(toString(xmlSerialize.toString()));
     } else {
         result = xmlSerialize.save(to);
-
-        QString str = result ? QString("Saved as " + to) : QString("Error when creating xml file!");
 
         if(result) {
             printf("Saved as %s\n", toString(to));

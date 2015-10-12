@@ -29,7 +29,7 @@ public:
 	~OveConvertor();
 
 public:
-	bool convert(const QString& from, const QString& to);
+    bool convert(const QString& from, const QString& to);
 
 	virtual void loadInfo(const QString& info);
 	virtual void loadError();
